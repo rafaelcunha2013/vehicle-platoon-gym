@@ -6,6 +6,20 @@ The environments follow the standard [gym's API](https://github.com/openai/gym).
 
 For an example usage of this environment, see [Reducing fuel consumption in platooning systems through reinforcement learning](https://www.sciencedirect.com/science/article/pii/S2405896322010266).
 
+## Environment
+
+A unidimensional platoon vehicle. Agent should learn how to switch between different paramenters of an Adaptive
+Cruise Control to increase fuel efficiency. 
+From [Cunha et al. 2022](https://www.sciencedirect.com/science/article/pii/S2405896322010266).
+
+`vehicle-platoon-gym` <br>
+
+<img src="./Figures/MyPlatoon.png">
+
+[comment]: <>  (<img src="./Figures/markov_chain2.png">)
+
+[comment]: <> (<img src="./Figures/Jammer3.eps">)
+
 ## Install
 
 Via pip:
@@ -102,19 +116,7 @@ for episode in range(num_episodes):
 ```
 
 
-## Environments
 
-A unidimensional platoon vehicle. Agent should learn how to switch between different paramenters of an Adaptive
-Cruise Control to increase fuel efficiency. 
-From [Cunha et al. 2022](https://www.sciencedirect.com/science/article/pii/S2405896322010266).
-
-`vehicle-platoon-gym` <br>
-
-<img src="./Figures/MyPlatoon.png">
-
-[comment]: <>  (<img src="./Figures/markov_chain2.png">)
-
-[comment]: <> (<img src="./Figures/Jammer3.eps">)
 
 
 
