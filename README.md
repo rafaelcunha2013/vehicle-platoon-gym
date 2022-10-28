@@ -10,7 +10,7 @@ For an example usage of this environment, see [Reducing fuel consumption in plat
 
 A unidimensional platoon vehicle. Agent should learn how to switch between different paramenters of an Adaptive
 Cruise Control to increase fuel efficiency. 
-From [Cunha et al. 2022](https://www.sciencedirect.com/science/article/pii/S2405896322010266).
+From [Cunha, Rafael F., et al. "Reducing fuel consumption in platooning systems through reinforcement learning." IFAC-PapersOnLine 55.15 (2022): 99-104.](https://www.sciencedirect.com/science/article/pii/S2405896322010266).
 
 `vehicle-platoon-gym` <br>
 
