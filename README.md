@@ -112,7 +112,7 @@ From [Cunha et al. 2022](https://www.sciencedirect.com/science/article/pii/S2405
 
 <img src="./Figures/MyPlatoon.png">
 
-[comment]: <>  <img src="./Figures/markov_chain2.png">
+[comment]: <>  (<img src="./Figures/markov_chain2.png">)
 
 [comment]: <> (<img src="./Figures/Jammer3.eps">)
 
