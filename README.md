@@ -1,3 +1,28 @@
+
+# vehicle_platoon_gym: One dimension vehicle platoon environment compatible with gym
+
+Gym environments two simulate one dimensional platoon problems with a stochastic jammer in front of the platoon. 
+The environments follow the standard [gym's API](https://github.com/openai/gym).
+
+For an example usage of this environment, see [Reducing fuel consumption in platooning systems through reinforcement learning](https://www.sciencedirect.com/science/article/pii/S2405896322010266).
+
+## Install
+
+Via pip:
+```bash
+pip install vehicle-platoon-gym
+```
+
+Alternatively, you can install the newest unreleased version:
+```bash
+git clone https://github.com/rafaelcunha2013/vehicle-platoon-gym.git
+cd vehicle-platoon-gym
+pip install -e .
+```
+
+## Usage
+
+```python
 from Jammer import MyJammer
 from Platooning import Platooning
 import platform
@@ -74,4 +99,34 @@ for episode in range(num_episodes):
     plt.plot(reward_history)
     plt.title("Reward (Normalized dist/fuel)")
     plt.show()
+```
 
+
+## Environments
+
+A unidimensional platoon vehicle. Agent should learn how to switch between different paramenters of an Adaptive
+Cruise Control to increase fuel efficiency. 
+From [Cunha et al. 2022](https://www.sciencedirect.com/science/article/pii/S2405896322010266).
+
+`vehicle-platoon-gym` <br><img src="https://github.com/rafaelcunha2013/vehicle-platoon-gym/Figures/MyPlatoon.png" width="200px">
+
+
+
+## Citing
+
+If you use this repository in your work, please cite:
+
+```bibtex
+@misc{vehicle-platoon-gym,
+  author = {Rafael F. Cunha},
+  title = {vehicle-platoon-gym: Reinforcement Learning Environments to simulates 1-D vehicle platoon},
+  year = {2022},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/rafaelcunha2013/vehicle-platoon-gym}},
+}
+```
+
+## Acknowledgments
+
+* [Tiago ROCHA GONÇALVES](https://tiagorochag.github.io/), who worked with me on the construction of this environment.

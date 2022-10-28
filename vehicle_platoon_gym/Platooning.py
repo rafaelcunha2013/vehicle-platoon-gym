@@ -4,8 +4,7 @@ from gym import spaces
 from scipy.interpolate import interp1d
 import os.path
 import copy
-import platform
-import matplotlib.pyplot as plt
+
 from ACC_Model import model
 from Jammer import MyJammer
 
@@ -502,7 +501,6 @@ class Platooning(gym.Env):
         self.mode = action
         for k in range(1 * self.fixed_action_time):
             self.time_lapse += 1
-            # self.speed_acceleration_control()
             self.save_variables()
             self.alpha_dyn()
             next_state = self.dynamics(action)
