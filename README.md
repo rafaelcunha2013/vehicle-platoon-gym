@@ -108,7 +108,13 @@ A unidimensional platoon vehicle. Agent should learn how to switch between diffe
 Cruise Control to increase fuel efficiency. 
 From [Cunha et al. 2022](https://www.sciencedirect.com/science/article/pii/S2405896322010266).
 
-`vehicle-platoon-gym` <br><img src="https://github.com/rafaelcunha2013/vehicle-platoon-gym/Figures/MyPlatoon.png" width="300px">
+`vehicle-platoon-gym` <br>
+
+<img src="./Figures/MyPlatoon.png">
+
+<img src="./Figures/markov_chain2.png">
+
+[comment]: <> (<img src="./Figures/Jammer3.eps">)
 
 
 
