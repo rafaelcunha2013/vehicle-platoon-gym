@@ -20,9 +20,24 @@ From [Cunha, Rafael F., et al. "Reducing fuel consumption in platooning systems 
 
 [comment]: <> (<img src="./Figures/Jammer3.eps">)
 
-## Install
+## Installation
 
-Via pip:
+1. Setup a conda environment
+```bash
+conda create -n env_name python=3.8
+conda activate env_name
+```
+
+2. Clone this git repo in an appropriate folder
+```bash
+git clone https://github.com/rafaelcunha2013/vehicle-platoon-gym.git
+```
+3. Enter the repo root folder and install the required packages:
+```bash
+pip install -r requirements.txt
+pip install -e
+```
+4. Install our environment ```vehicle-platoon-gym```
 ```bash
 pip install vehicle-platoon-gym
 ```
