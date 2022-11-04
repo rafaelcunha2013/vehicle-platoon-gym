@@ -36,6 +36,12 @@ pip install -e .
 
 ## Usage
 
+An example code is provided inside ```main.py```. To simply run with default parameters:
+
+```bash
+python main.py
+```
+<!---
 ```python
 from Jammer import MyJammer
 from Platooning import Platooning
@@ -114,7 +120,7 @@ for episode in range(num_episodes):
     plt.title("Reward (Normalized dist/fuel)")
     plt.show()
 ```
-
+-->
 
 
 
