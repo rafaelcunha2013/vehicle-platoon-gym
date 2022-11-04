@@ -1,5 +1,5 @@
 
-# vehicle_platoon_gym: One dimension vehicle platoon environment compatible with gym
+# vehicle_platoon_gym: One dimension vehicle platoon environment compatible with gym for RL
 
 Gym environments two simulate one dimensional platoon problems with a stochastic jammer in front of the platoon. 
 The environments follow the standard [gym's API](https://github.com/openai/gym).
