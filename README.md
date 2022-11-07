@@ -138,21 +138,20 @@ for episode in range(num_episodes):
 -->
 
 
-
-
-
 ## Citing
 
-If you use this repository in your work, please cite:
+If you use this repository in your work, please cite our work:
 
 ```bibtex
-@misc{vehicle-platoon-gym,
-  author = {Rafael F. Cunha},
-  title = {vehicle-platoon-gym: Reinforcement Learning Environments to simulates 1-D vehicle platoon},
-  year = {2022},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/rafaelcunha2013/vehicle-platoon-gym}},
+@article{cunha2022reducing,
+  title={Reducing fuel consumption in platooning systems through reinforcement learning},
+  author={Cunha, Rafael F and Gon{\c{c}}alves, Tiago R and Varma, Vineeth S and Elayoubi, Salah E and Cao, Ming},
+  journal={IFAC-PapersOnLine},
+  volume={55},
+  number={15},
+  pages={99--104},
+  year={2022},
+  publisher={Elsevier}
 }
 ```
 
