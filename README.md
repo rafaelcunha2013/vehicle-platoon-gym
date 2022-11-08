@@ -140,7 +140,7 @@ for episode in range(num_episodes):
 
 ## Citing
 
-If you use this repository in your work, please cite our work:
+If you find the codes or paper useful for your research, please cite our paper:
 
 ```bibtex
 @article{cunha2022reducing,
