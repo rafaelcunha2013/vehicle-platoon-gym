@@ -125,7 +125,6 @@ class Platooning(gym.Env):
         self.total_fuel = np.zeros((self.N,), dtype=float)
         self.total_co2 = np.zeros((self.N,), dtype=float)
         self.car_drag = self.generate_car_drag()
-        self.hc_table = self.generate_hc_table()
 
         # Initialization of 'memory' variables
         self.h_len = kwargs['h_len'] if 'h_len' in kwargs else 1
@@ -139,7 +138,6 @@ class Platooning(gym.Env):
         self.myfuel_history = [[]]
         self.myenergy_air_history = [[]]
         self.myenergy_acc_history = [[]]
-        self.myhc_history = [[]]
 
         # Flag conditions
         self.collision = False
@@ -212,135 +210,6 @@ class Platooning(gym.Env):
         self.total_fuel += fuel_vehicles
         return fuel_vehicles
 
-    def compute_co2_emission(self):
-        b0 = 7.613534994965560
-        b1 = -0.138565467462594
-        b2 = 0.003915102063854
-        b3 = -0.000049451361017
-        b4 = 0.000000238630156
-        ms_to_mph = 2.23694
-        v_leader = self.x[1]
-        v_follower1 = self.x[1] + self.x[self.dim + 1]
-        v_follower2 = self.x[1] + self.x[self.dim + 1] + self.x[2*self.dim + 1]
-        v = ms_to_mph * np.array([v_leader, v_follower1, v_follower2])
-        aux = b0 + b1 * v + b2 * v ** 2 + b3 * v ** 3 + b4 * v ** 4
-        co2_vehicles = np.exp(aux)
-        self.total_co2 += co2_vehicles.squeeze(1)
-        return co2_vehicles
-
-    def compute_total_hc1(self):
-        v_leader = self.x[1]
-        v_follower1 = self.x[1] + self.x[self.dim + 1]
-        v_follower2 = self.x[1] + self.x[self.dim + 1] + self.x[2*self.dim + 1]
-        v_cars = np.array([v_leader, v_follower1, v_follower2])
-        a = np.array([self.x[2], self.x[5], self.x[8]])
-
-        L = [[-0.87605, 0.03627, -0.00045, 2.55E-06],
-             [0.081221, 0.009246, -0.00046, 4.00E-06],
-             [0.037039, -0.00618, 2.96E-04, -1.86E-06],
-             [-0.00255, 0.000468, -1.79E-05, 3.86E-08]]
-        L_array = np.array(L)
-        y = 0
-        for idi, my_l in np.ndenumerate(L_array):
-            y += my_l * v_cars**idi[0] * a**idi[1]
-        hc = np.exp(y).squeeze(1)
-        for i in range(3):
-            if self.time_lapse > 3:
-                error = hc[i] - self.myhc_history[self.episode % self.h_len][self.time_lapse-2][i]
-                if error < 0:
-                    hc[i] = self.myhc_history[self.episode % self.h_len][self.time_lapse-2][i]
-        return hc
-
-    @staticmethod
-    def generate_hc_table1():
-        l = [[-0.87605, 0.03627, -0.00045, 2.55E-06],
-             [0.081221, 0.009246, -0.00046, 4.00E-06],
-             [0.037039, -0.00618, 2.96E-04, -1.86E-06],
-             [-0.00255, 0.000468, -1.79E-05, 3.86E-08]]
-
-        m = [[-0.75584, 0.021283, -0.00013, 7.39e-07],
-             [-0.00921, 0.011364, -0.0002, 8.45e-07],
-             [0.036223, 0.000226, 4.03e-08, -3.5e-08],
-             [0.003968, -9e-05, 2.4e-06, -1.6e-08]]
-        l_array = np.array(l).T
-        m_array = np.array(m).T
-        # a = np.round(3.6 * np.linspace(-2, 2, 41), 1)
-        a = np.round([3.6 * 1.8, 3.6*0.9], 1)
-        v = np.round(3.6 * np.linspace(0, 30, 301), 1)
-        hc = np.zeros((len(v), len(a)), dtype=float)
-        # hc = dict()
-        for i_a, value_a in enumerate(a):
-            y_old = 0
-            for i_v, value_v in enumerate(v):
-                y = 0
-                if value_a >= 0:
-                    for idi, value_l in np.ndenumerate(l_array):
-                        y += value_l * value_v*idi[0] * value_a**idi[1]
-                else:
-                    for idi, value_m in np.ndenumerate(m_array):
-                        y += value_m * value_v*idi[0] * value_a**idi[1]
-                y = np.exp(y)
-                if y > y_old:
-                    hc[i_v][i_a] = y
-                    # hc[(value_a, value_v)] = y
-                    y_old = y
-                else:
-                    hc[i_v][i_a] = y_old
-                    # hc[(value_a, value_v)] = y_old
-        return hc
-
-    @staticmethod
-    def generate_hc_table():
-        l = [[-0.87605, 0.03627, -0.00045, 2.55E-06],
-             [0.081221, 0.009246, -0.00046, 4.00E-06],
-             [0.037039, -0.00618, 2.96E-04, -1.86E-06],
-             [-0.00255, 0.000468, -1.79E-05, 3.86E-08]]
-
-        m = [[-0.75584, 0.021283, -0.00013, 7.39e-07],
-             [-0.00921, 0.011364, -0.0002, 8.45e-07],
-             [0.036223, 0.000226, 4.03e-08, -3.5e-08],
-             [0.003968, -9e-05, 2.4e-06, -1.6e-08]]
-        l_array = np.array(l)
-        m_array = np.array(m)
-        a = 3.6 * np.linspace(-2, 2, 41)
-        # a = [3.6 * 1.8, 3.6*0.9]
-        v = 3.6 * np.linspace(0, 34, 341)
-        hc = np.zeros((len(v), len(a)), dtype=float)
-        y = np.zeros((len(v), len(a)), dtype=float)
-        y_old = np.zeros(len(a), dtype=float)
-        # hc = dict()
-        for idk, a_value in np.ndenumerate(a):
-            # y_old = 0
-            for idz, v_value in np.ndenumerate(v):
-                if a_value >= 0:
-                    for idi, i in np.ndenumerate(l_array):
-                        y[idz[0], idk[0]] = y[idz[0], idk[0]] + l_array[idi[1], idi[0]] * v[idz[0]]**(idi[0]) * a[idk[0]]**(idi[1])
-                    if y[idz[0], idk[0]] > y_old[idk[0]]:
-                        hc[idz[0], idk[0]] = np.exp(y[idz[0], idk[0]])
-                        y_old[idk[0]] = y[idz[0], idk[0]]
-                    else:
-                        hc[idz[0], idk[0]] = np.exp(y_old[idk[0]])
-
-                if a_value < 0:
-                    for idi, i in np.ndenumerate(m_array):
-                        y[idz[0], idk[0]] = y[idz[0], idk[0]] + m_array[idi[1], idi[0]] * v[idz[0]]**(idi[0]) * a[idk[0]]**(idi[1])
-                    hc[idz[0], idk[0]] = np.exp(y[idz[0], idk[0]])
-
-        return hc
-
-    def compute_total_hc(self):
-        v_leader = self.x[1]
-        v_follower1 = self.x[1] + self.x[self.dim + 1]
-        v_follower2 = self.x[1] + self.x[self.dim + 1] + self.x[2*self.dim + 1]
-        v = np.round(np.array([v_leader, v_follower1, v_follower2]), 1)
-        a = np.round(np.array([self.x[2], self.x[5], self.x[8]]), 1)
-        hc = np.zeros((self.N,), dtype=float)
-        for i in range(3):
-            a[i] = max(-2, min(a[i], 2))
-            v[i] = max(0, min(v[i], 30))
-            hc[i] = self.hc_table[int(10 * v[i][0])][int((2 + a[i][0]) * 10)]
-        return hc
-
     def collision_control(self):
         collision = False
         for j in range(1, self.N):
@@ -352,14 +221,12 @@ class Platooning(gym.Env):
 
     def save_variables(self):
         self.platoonfuel.append(self.total_fuel[2] + self.total_fuel[1] + self.total_fuel[0])
-        # self.co2_emission.append(self.compute_co2_emission())
         self.mystates_history[self.episode % self.h_len].append(self.x)
         self.mycontrol_history[self.episode % self.h_len].append(self.mode)
         self.myalpha_history[self.episode % self.h_len].append(self.myalpha)
         self.myfuel_history[self.episode % self.h_len].append(self.compute_total_fuel())
         self.myenergy_air_history[self.episode % self.h_len].append(self.energy_air)
         self.myenergy_acc_history[self.episode % self.h_len].append(self.energy_acc)
-        self.myhc_history[self.episode % self.h_len].append(self.compute_total_hc())
 
     def append_variables(self):
         self.mystates_history.append([])
@@ -368,7 +235,6 @@ class Platooning(gym.Env):
         self.myfuel_history.append([])
         self.myenergy_air_history.append([])
         self.myenergy_acc_history.append([])
-        self.myhc_history.append([])
 
     def organize_state(self):
         if self.model_type == 'ACC':
@@ -459,17 +325,11 @@ class Platooning(gym.Env):
             hist = self.myfuel_history
             load = self.delta_load_and_position
             reward = self.reward_distance_per_load(self.inst_delta, collision, load, hist) * self.rwd_mult - self.rwd_const
-        if type == 'inst_delta_distance_per_hc':
-            hist = self.myhc_history
-            load = self.delta_load_and_position
-            reward = self.reward_distance_per_load(self.inst_delta, collision, load, hist) * self.rwd_mult - self.rwd_const
         if type == 'inst_delta_distance_per_cost':
             hist_fuel = self.myfuel_history
-            hist_hc = self.myhc_history
             load = self.delta_load_and_position
             reward_fuel = self.reward_distance_per_load(self.inst_delta, collision, load, hist_fuel)
-            reward_hc = self.reward_distance_per_load(self.inst_delta, collision, load, hist_hc)
-            reward = (reward_fuel + self.rwd_hc_weight * reward_hc) * self.rwd_mult - self.rwd_const
+            reward = reward_fuel * self.rwd_mult - self.rwd_const
         return reward
 
     def alpha_dyn(self):
@@ -534,7 +394,6 @@ class Platooning(gym.Env):
             self.myfuel_history = [[]]
             self.myenergy_air_history = [[]]
             self.myenergy_acc_history = [[]]
-            self.myhc_history = [[]]
 
         state = self.organize_state()
         self.mode = 0

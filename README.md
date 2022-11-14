@@ -1,5 +1,5 @@
 
-# vehicle_platoon_gym: One dimension vehicle platoon environment compatible with gym for RL
+# vehicle_platoon_gym: A longitudinal vehicle platoon environment compatible with gym for RL
 
 Gym environments two simulate one dimensional platoon problems with a stochastic jammer in front of the platoon. 
 The environments follow the standard [gym's API](https://github.com/openai/gym).
@@ -8,7 +8,7 @@ For an example usage of this environment, see [Reducing fuel consumption in plat
 
 ## Environment
 
-A unidimensional platoon vehicle. Agent should learn how to switch between different paramenters of an Adaptive
+We create a longitudinal platoon vehicle environment. The agent should learn when to switch between different paramenters of an Adaptive
 Cruise Control to increase fuel efficiency. 
 From [Cunha, Rafael F., et al. "Reducing fuel consumption in platooning systems through reinforcement learning." IFAC-PapersOnLine 55.15 (2022): 99-104.](https://www.sciencedirect.com/science/article/pii/S2405896322010266).
 
@@ -140,7 +140,7 @@ for episode in range(num_episodes):
 
 ## Citing
 
-If you find the codes or paper useful for your research, please cite our paper:
+If you find our codes or our paper useful for your research, please cite our work:
 
 ```bibtex
 @article{cunha2022reducing,
