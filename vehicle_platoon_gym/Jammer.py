@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.stats as stats
 import matplotlib
-import matplotlib.pyplot as plt
+import  matplotlib.pyplot as plt
 import pickle
 import os
 from pathlib import Path

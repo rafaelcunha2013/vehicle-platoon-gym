@@ -72,6 +72,6 @@ for episode in range(num_episodes):
         next_state, reward, done, info = env.step(action)
         reward_history.append(reward)
     plt.plot(reward_history)
-    plt.title("Reward (Normalized dist/fuel)")
-    plt.show()
+plt.title("Reward (Normalized dist/fuel)")
+plt.show(block=True)
 
