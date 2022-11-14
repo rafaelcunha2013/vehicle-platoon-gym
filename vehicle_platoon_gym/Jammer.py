@@ -115,16 +115,19 @@ class MyJammer:
         plt.plot(self.myjammer)
         plt.show()
 
-    def plot_many(self, n=3, m=5):
+    def plot_many(self, n=3, m=5, max_steps=300):
         # Plot many jammer profiles
         cont = 0
-        plt.figure(1, figsize=(15, 5))
+        time_vec = np.linspace(0, max_steps / 10, max_steps*100)
+        # plt.figure(2,figsize=(15, 5))
         for i in range(n):
             for j in range(m):
                 plt.subplot2grid((n, m), (i, j))
-                plt.plot(self.many_jammers[cont])
+                plt.plot(time_vec, self.many_jammers[cont][0:max_steps*100])
+                plt.xlabel('Time (s)')
+                plt.ylabel('Velocity (m/s)')
                 cont += 1
-        plt.show()
+        # plt.show()
 
     @staticmethod
     def path(system):

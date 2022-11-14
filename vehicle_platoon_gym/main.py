@@ -2,6 +2,7 @@ from Jammer import MyJammer
 from Platooning import Platooning
 import platform
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 system = platform.system()
@@ -33,7 +34,6 @@ area = 10.26
 fixed_time = 100
 rwd_const = 1.5
 rwd_mult = 5
-rwd_hc_weight = 1 / 5000
 env = Platooning(jammer,
                  system=system,
                  num_states=6,
@@ -51,9 +51,7 @@ env = Platooning(jammer,
                  h_len=h_len,
                  area=area,
                  rwd_const=rwd_const,
-                 rwd_mult=rwd_mult,
-                 rwd_hc_weight=rwd_hc_weight)
-
+                 rwd_mult=rwd_mult)
 num_episodes = 4
 for episode in range(num_episodes):
     reward_history = []
@@ -71,8 +69,13 @@ for episode in range(num_episodes):
 
         next_state, reward, done, info = env.step(action)
         reward_history.append(reward)
-    plt.plot(reward_history)
+    time_scale = np.linspace(0, len(reward_history) / 10, len(reward_history))
+    plt.plot(time_scale, reward_history)
 plt.title("Reward (Normalized dist/fuel)")
+plt.xlabel('Time (s)')
+plt.legend(['Episode 1', 'Episode 2', 'Episode 3', 'Episode 4'])
+plt.show(block=False)
+plt.figure(figsize=(20, 5))
+jammer.plot_many(2, 2, len(reward_history))
 plt.show()
-plt.figure(2)
-jammer.plot_many(2, 2)
+
