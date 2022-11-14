@@ -73,5 +73,6 @@ for episode in range(num_episodes):
         reward_history.append(reward)
     plt.plot(reward_history)
 plt.title("Reward (Normalized dist/fuel)")
-plt.show(block=True)
-
+plt.show()
+plt.figure(2)
+jammer.plot_many(2, 2)
